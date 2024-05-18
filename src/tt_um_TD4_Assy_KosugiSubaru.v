@@ -1,4 +1,4 @@
-module tt_um_TD4_Assy_KosugiSubaru(clk, rst, addres, data, cf, port_i, port_o);
+module tt_um_TD4_Assy_KosugiSubaru(clk, rst, addres, data, cf, port_i, port_o, ena);
     input clk, rst;
     input [7:0] data;
     output [3:0] addres;
