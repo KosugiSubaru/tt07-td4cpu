@@ -6,7 +6,7 @@ module tt_um_TD4_Assy_KosugiSubaru(clk, rst, addres, data, cf, port_i, port_o, e
     input [3:0] port_i;
     output [3:0] port_o;
 
-    input  wire       ena,      // always 1 when the design is powered, so you can ignore it
+    input  wire       ena;      // always 1 when the design is powered, so you can ignore it
 
     wire [3:0] ALU_to_reg, sel_to_ALU;
     wire [3:0] regA_to_sel, regB_to_sel;
