@@ -14,18 +14,32 @@ wire [3:0] port_i, port_o, addres, ALU_to_reg, sel_to_ALU, regA_to_sel, regB_to_
 wire [1:0] select;
 wire carry, cf, co_from_pc;
 
-assign uio_oe [3:0] = 4'b0000;
-assign uio_oe [7:4] = 4'b1111;
+reg [3:0] uio_oe_reg;
+
+assign uio_oe [4] = 1'b0;
+assign uio_out [4] = 1'b0;
+assign uio_oe [7:5] = 3'b111;
+assign uio_oe [3:0] = uio_oe_reg [3:0];
 
 assign port_i [3:0] = uio_in [3:0];
-assign uio_out [7:4] = port_o [3:0];
-assign uo_out [3:0] = addres;
+assign uio_out [3:0] = port_o [3:0];
+
+assign uo_out [3:0] = addres[3:0];
 assign data [7:0] = ui_in [7:0];
 assign op = data[7:4], im = data[3:0];
-assign uo_out [4] = cf;
 
-assign uio_out [3:0] = 4'b0000;
-assign uo_out [7:5] = 3'b000;
+assign uo_out [4] = cf;
+assign uo_out [7:5] = ALU_to_reg [2:0];
+assign uio_out [5] = ALU_to_reg [3];
+assign uio_out [7:6] = select [1:0];
+
+always @(uio_in [4]) begin
+    if (uio_in [4] == 1'b0) begin
+        uio_oe_reg [3:0] <= 4'b0000;
+    end else if (uio_in [4] == 1'b1) begin
+        uio_oe_reg [3:0] <= 4'b1111;
+    end
+end
 
 register_ff_4bit reg_A (.in(ALU_to_reg), .out(regA_to_sel), .ld(~load [0]), .clk(clk), .rst(rst_n));
 register_ff_4bit reg_B (.in(ALU_to_reg), .out(regB_to_sel), .ld(~load[1]), .clk(clk), .rst(rst_n));

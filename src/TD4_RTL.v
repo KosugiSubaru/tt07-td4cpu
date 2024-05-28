@@ -103,7 +103,7 @@ module selector(in_a, in_b, in_c, in_d, s, out);
             2'b01: out <= in_b;
             2'b10: out <= in_c;
             2'b11: out <= in_d;
-            default: out <= 1'bx;
+            default: out <= 4'bxxxx;
         endcase
     end
 endmodule
